@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathApp - Mobile App Matematika Terlengkap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Poppins', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .pulse-animation { animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Hero Section -->
+    <div class="gradient-bg text-white min-h-screen">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-mobile-alt text-3xl"></i>
+                <span class="text-2xl font-bold">MathApp</span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="#fitur" class="hover:text-yellow-300 transition">Fitur</a>
+                <a href="#premium" class="hover:text-yellow-300 transition">Premium</a>
+                <a href="#cara-kerja" class="hover:text-yellow-300 transition">Cara Kerja</a>
+                <button onclick="showModal('login')" class="bg-white text-purple-600 px-6 py-2 rounded-full font-semibold hover:bg-yellow-300 hover:text-purple-700 transition">
+                    Login
+                </button>
+            </div>
+        </nav>
+
+        <div class="container mx-auto px-6 py-16 md:py-24">
+            <div class="md:flex items-center justify-between">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <div class="inline-block bg-yellow-400 text-purple-800 px-4 py-2 rounded-full text-sm font-bold mb-4 pulse-animation">
+                        🎓 Teman Belajar Setia Menuju Kelulusan!
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                        Mobile App Matematika <span class="text-yellow-300">Terlengkap</span>
+                    </h1>
+                    <p class="text-xl mb-8 text-gray-100">
+                        Akses kalkulator canggih, kumpulan rumus, latihan soal, dan media sosial pembelajaran matematika dalam satu genggaman. <strong class="text-yellow-300">Selangkah lebih dekat menuju kelulusan!</strong>
+                    </p>
+                    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                        <button onclick="showModal('register')" class="bg-yellow-400 text-purple-800 px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-purple-600 transition shadow-lg">
+                            🚀 Daftar Sekarang - Gratis!
+                        </button>
+                        <button onclick="scrollToSection('premium')" class="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-purple-600 transition">
+                            Lihat Paket Premium
+                        </button>
+                    </div>
+                    
+                    <div class="mt-8 flex items-center space-x-6 text-sm">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-yellow-400 mr-2"></i>
+                            <span>1000+ Soal Latihan</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-yellow-400 mr-2"></i>
+                            <span>Rumus Lengkap</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-yellow-400 mr-2"></i>
+                            <span>Kalkulator Canggih</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-5/12">
+                    <div class="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20">
+                        <div class="text-center">
+                            <i class="fas fa-mobile-alt text-8xl text-yellow-400 mb-4"></i>
+                            <h3 class="text-2xl font-bold mb-2">Akses Premium</h3>
+                            <p class="text-gray-200 mb-4">Dapatkan akses penuh ke semua fitur</p>
+                            <div class="bg-yellow-400 text-purple-800 rounded-2xl p-6 mb-4">
+                                <p class="text-sm mb-1">Mulai dari</p>
+                                <p class="text-4xl font-bold">Rp 15.000<span class="text-lg">/bulan</span></p>
+                            </div>
+                            <button onclick="showModal('register')" class="w-full bg-white text-purple-600 py-3 rounded-xl font-bold hover:bg-yellow-300 transition">
+                                Dapatkan Sekarang
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kenapa Harus Premium -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">
+                    Kenapa Harus Upgrade ke Premium?
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    <span class="text-purple-600 font-bold">MathApp adalah teman belajar setia Anda</span> yang akan membawa Anda selangkah lebih dekat menuju kelulusan. 
+                    Dengan fitur-fitur lengkap dan materi yang komprehensif, kesuksesan ada di genggaman Anda!
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card-hover bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-8 border border-purple-100">
+                    <div class="w-16 h-16 bg-purple-600 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-graduation-cap text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Menuju Kelulusan</h3>
+                    <p class="text-gray-600">
+                        Ribuan siswa telah membuktikan bahwa MathApp membantu mereka memahami matematika dengan lebih mudah dan meraih nilai terbaik.
+                    </p>
+                </div>
+
+                <div class="card-hover bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-8 border border-yellow-100">
+                    <div class="w-16 h-16 bg-yellow-500 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-book-open text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Materi Terlengkap</h3>
+                    <p class="text-gray-600">
+                        Dari dasar hingga mahir, semua materi matematika SMP & SMA tersedia dengan pembahasan detail dan mudah dipahami.
+                    </p>
+                </div>
+
+                <div class="card-hover bg-gradient-to-br from-green-50 to-teal-50 rounded-2xl p-8 border border-green-100">
+                    <div class="w-16 h-16 bg-green-600 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-users text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Teman Belajar Setia</h3>
+                    <p class="text-gray-600">
+                        Belajar kapan saja, di mana saja. MathApp selalu siap menemani perjalanan belajar Anda 24/7 tanpa batas.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fitur Section -->
+    <section id="fitur" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Fitur Unggulan MathApp</h2>
+                <p class="text-xl text-gray-600">Semua yang Anda butuhkan untuk menguasai matematika</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-lg card-hover">
+                    <div class="text-4xl mb-4">🧮</div>
+                    <h3 class="text-xl font-bold mb-2">Kalkulator Lengkap</h3>
+                    <p class="text-gray-600 text-sm">Berbagai jenis kalkulator matematika canggih untuk perhitungan cepat dan akurat</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-lg card-hover">
+                    <div class="text-4xl mb-4">📚</div>
+                    <h3 class="text-xl font-bold mb-2">Kumpulan Rumus</h3>
+                    <p class="text-gray-600 text-sm">Referensi cepat seluruh rumus matematika SMP & SMA yang sistematis</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-lg card-hover">
+                    <div class="text-4xl mb-4">📝</div>
+                    <h3 class="text-xl font-bold mb-2">Latihan Soal</h3>
+                    <p class="text-gray-600 text-sm">Soal bertingkat dari dasar hingga mahir dengan pembahasan lengkap</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-lg card-hover">
+                    <div class="text-4xl mb-4">🎵</div>
+                    <h3 class="text-xl font-bold mb-2">Konten Edukasi</h3>
+                    <p class="text-gray-600 text-sm">Tips matematika singkat, trik cepat, dan konten viral di TikTok</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium Packages -->
+    <section id="premium" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Pilih Paket Premium Anda</h2>
+                <p class="text-xl text-gray-600 mb-8">Investasi terbaik untuk masa depan pendidikan Anda</p>
+                <div class="inline-block bg-purple-100 text-purple-800 px-6 py-3 rounded-full font-semibold">
+                    💡 Dengan MathApp, Anda selangkah lebih dekat menuju kelulusan!
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Paket 1 Bulan -->
+                <div class="border-2 border-gray-200 rounded-2xl p-8 card-hover">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Premium 1 Bulan</h3>
+                    <p class="text-gray-600 mb-6">Coba dulu, rasakan manfaatnya</p>
+                    <div class="text-4xl font-bold text-purple-600 mb-6">Rp 15.000</div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Akses 30 hari penuh</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Semua fitur premium</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>1000+ soal latihan</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Kalkulator canggih</li>
+                    </ul>
+                    <button onclick="selectPackage('1-month', 15000, 30)" class="w-full bg-gray-200 text-gray-800 py-3 rounded-xl font-bold hover:bg-gray-300 transition">
+                        Pilih Paket
+                    </button>
+                </div>
+
+                <!-- Paket 3 Bulan - POPULAR -->
+                <div class="border-2 border-yellow-400 rounded-2xl p-8 card-hover relative transform scale-105 shadow-2xl">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-purple-800 px-4 py-1 rounded-full text-sm font-bold">
+                        PALING POPULER
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Premium 3 Bulan</h3>
+                    <p class="text-gray-600 mb-6">Hemat lebih banyak</p>
+                    <div class="text-4xl font-bold text-purple-600 mb-6">Rp 40.000</div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Akses 90 hari penuh</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Semua fitur premium</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>1000+ soal latihan</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Priority support</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Update materi rutin</li>
+                    </ul>
+                    <button onclick="selectPackage('3-months', 40000, 90)" class="w-full bg-yellow-400 text-purple-800 py-3 rounded-xl font-bold hover:bg-yellow-300 transition pulse-animation">
+                        Pilih Paket
+                    </button>
+                </div>
+
+                <!-- Paket 1 Tahun -->
+                <div class="border-2 border-purple-600 rounded-2xl p-8 card-hover">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Premium 1 Tahun</h3>
+                    <p class="text-gray-600 mb-6">Investasi terbaik</p>
+                    <div class="text-4xl font-bold text-purple-600 mb-6">Rp 120.000</div>
+                    <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-bold mb-6 inline-block">
+                        Hemat Rp 60.000!
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Akses 365 hari penuh</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Semua fitur premium</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>1000+ soal latihan</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Priority support</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Update materi rutin</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Konsultasi gratis</li>
+                    </ul>
+                    <button onclick="selectPackage('1-year', 120000, 365)" class="w-full bg-purple-600 text-white py-3 rounded-xl font-bold hover:bg-purple-700 transition">
+                        Pilih Paket
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cara Kerja -->
+    <section id="cara-kerja" class="py-20 bg-gradient-to-br from-purple-50 to-blue-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Cara Berlangganan Premium</h2>
+                <p class="text-xl text-gray-600">Mudah dan cepat, hanya dalam 4 langkah</p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4">1</div>
+                    <h3 class="text-xl font-bold mb-2">Daftar Akun</h3>
+                    <p class="text-gray-600">Isi formulir registrasi dengan data yang valid</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4">2</div>
+                    <h3 class="text-xl font-bold mb-2">Pilih Paket</h3>
+                    <p class="text-gray-600">Pilih paket premium yang sesuai kebutuhan Anda</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4">3</div>
+                    <h3 class="text-xl font-bold mb-2">Transfer Pembayaran</h3>
+                    <p class="text-gray-600">Transfer ke rekening BNI: <strong class="text-purple-600">0495212080</strong></p>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4">4</div>
+                    <h3 class="text-xl font-bold mb-2">Verifikasi dengan Sistem</h3>
+                    <p class="text-gray-600">Akses akan aktif otomatis dalam 1x24 jam</p>
+                </div>
+            </div>
+
+            <div class="mt-16 bg-white rounded-2xl p-8 max-w-4xl mx-auto shadow-lg">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Informasi Pembayaran</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-blue-50 rounded-xl p-6">
+                        <h4 class="font-bold text-lg mb-3"><i class="fas fa-university text-blue-600 mr-2"></i>Bank Tujuan</h4>
+                        <p class="text-2xl font-bold text-blue-600 mb-1">BNI</p>
+                        <p class="text-xl font-mono">No. Rek: <strong>0495212080</strong></p>
+                        <p class="text-gray-600 mt-2">a.n. Mursofi</p>
+                    </div>
+                    <div class="bg-yellow-50 rounded-xl p-6">
+                        <h4 class="font-bold text-lg mb-3"><i class="fas fa-clock text-yellow-600 mr-2"></i>Proses Verifikasi</h4>
+                        <p class="text-gray-700 mb-2">Pembayaran diverifikasi dengan sistem otomatis</p>
+                        <p class="text-sm text-gray-600">⏱️ Waktu verifikasi: 1-24 jam setelah pembayaran</p>
+                        <p class="text-sm text-gray-600 mt-2">📱 Konfirmasi via WhatsApp: <strong>08978197222</strong></p>
+                    </div>
+                </div>
+                <div class="mt-6 bg-red-50 border-l-4 border-red-500 p-4 rounded">
+                    <p class="text-red-800"><i class="fas fa-exclamation-triangle mr-2"></i><strong>Penting:</strong> Setelah transfer, klik tombol "Saya Sudah Membayar" dan tunggu verifikasi sistem. Akses premium akan aktif otomatis setelah diverifikasi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Apa Kata Mereka?</h2>
+                <p class="text-xl text-gray-600">Ribuan siswa telah merasakan manfaat MathApp</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 rounded-2xl p-8">
+                    <div class="flex text-yellow-400 mb-4">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 mb-4">"MathApp membantu saya memahami matematika dengan lebih mudah. Nilai UN saya meningkat drastis!"</p>
+                    <p class="font-bold text-gray-800">- Haura Azahra</p>
+                    <p class="text-sm text-gray-600">Pendidikan Dokter Gigi - Universitas Padjadjaran - 2024</p>
+                </div>
+
+                <div class="bg-gray-50 rounded-2xl p-8">
+                    <div class="flex text-yellow-400 mb-4">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 mb-4">"Fitur kalkulator dan rumusnya sangat lengkap. Jadi teman belajar yang setia setiap hari."</p>
+                    <p class="font-bold text-gray-800">- Dimas Wijaya Ramadhan</p>
+                    <p class="text-sm text-gray-600">Teknik Dirgantara - Institut Teknologi Bandung - 2025</p>
+                </div>
+
+                <div class="bg-gray-50 rounded-2xl p-8">
+                    <div class="flex text-yellow-400 mb-4">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 mb-4">"Soal latihannya bertingkat dan pembahasannya jelas. Recommended banget untuk yang mau lulus!"</p>
+                    <p class="font-bold text-gray-800">- Dasya Ananda</p>
+                    <p class="text-sm text-gray-600">Ilmu Hukum - Universitas Indonesia - 2026</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-mobile-alt text-2xl"></i>
+                        <span class="text-xl font-bold">MathApp</span>
+                    </div>
+                    <p class="text-gray-400">Mobile App Matematika Terlengkap. Teman belajar setia menuju kelulusan.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Fitur</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">Kalkulator</a></li>
+                        <li><a href="#" class="hover:text-white">Rumus</a></li>
+                        <li><a href="#" class="hover:text-white">Latihan Soal</a></li>
+                        <li><a href="#" class="hover:text-white">Premium</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Sosial Media</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="https://www.tiktok.com/@universal_math" target="_blank" class="hover:text-white"><i class="fab fa-tiktok mr-2"></i>TikTok</a></li>
+                        <li><a href="https://www.instagram.com/mursofi_math" target="_blank" class="hover:text-white"><i class="fab fa-instagram mr-2"></i>Instagram</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Kontak</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><i class="fas fa-envelope mr-2"></i>mursofi1@gmail.com</li>
+                        <li><i class="fas fa-phone mr-2"></i>08978197222</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-gray-400">
+                <p>© 2026 Mobile App Matematika. Dibuat oleh <a href="https://www.instagram.com/mursofi_math/" class="text-purple-400 hover:text-purple-300">@mursofi_math</a> untuk pembelajaran yang lebih baik.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Register/Login -->
+    <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-8 relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            
+            <div id="registerForm">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Daftar Akun</h2>
+                <form onsubmit="handleRegister(event)">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-semibold mb-2">Username</label>
+                        <input type="text" id="regUsername" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Masukkan username">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-semibold mb-2">Email</label>
+                        <input type="email" id="regEmail" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="email@example.com">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-semibold mb-2">Password</label>
+                        <input type="password" id="regPassword" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Minimal 6 karakter">
+                    </div>
+                    <button type="submit" class="w-full bg-purple-600 text-white py-3 rounded-xl font-bold hover:bg-purple-700 transition">
+                        Daftar Sekarang
+                    </button>
+                </form>
+                <p class="text-center mt-4 text-gray-600">
+                    Sudah punya akun? <button onclick="showLogin()" class="text-purple-600 font-semibold hover:underline">Login di sini</button>
+                </p>
+            </div>
+
+            <div id="loginForm" class="hidden">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Login</h2>
+                <form onsubmit="handleLogin(event)">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-semibold mb-2">Username atau Email</label>
+                        <input type="text" id="loginUsername" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Masukkan username/email">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-semibold mb-2">Password</label>
+                        <input type="password" id="loginPassword" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Masukkan password">
+                    </div>
+                    <button type="submit" class="w-full bg-purple-600 text-white py-3 rounded-xl font-bold hover:bg-purple-700 transition">
+                        Login
+                    </button>
+                </form>
+                <p class="text-center mt-4 text-gray-600">
+                    Belum punya akun? <button onclick="showRegister()" class="text-purple-600 font-semibold hover:underline">Daftar di sini</button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Confirmation Modal -->
+    <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-8 relative">
+            <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Konfirmasi Pembayaran</h2>
+            
+            <div id="selectedPackageInfo" class="bg-purple-50 rounded-xl p-6 mb-6">
+                <h3 class="text-xl font-bold text-purple-800 mb-2">Paket: <span id="pkgName">-</span></h3>
+                <p class="text-2xl font-bold text-purple-600 mb-2">Rp <span id="pkgPrice">-</span></p>
+                <p class="text-gray-600">Durasi: <span id="pkgDuration">-</span> hari</p>
+            </div>
+
+            <div class="bg-blue-50 rounded-xl p-6 mb-6">
+                <h4 class="font-bold text-lg mb-3">Transfer ke:</h4>
+                <p class="text-2xl font-bold text-blue-600 mb-1">BNI</p>
+                <p class="text-xl font-mono mb-1">No. Rek: <strong>0495212080</strong></p>
+                <p class="text-gray-600">a.n. Mursofi</p>
+            </div>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6 rounded">
+                <p class="text-yellow-800 mb-2"><i class="fas fa-info-circle mr-2"></i><strong>Cara Pembayaran:</strong></p>
+                <ol class="list-decimal list-inside text-sm text-yellow-800 space-y-1">
+                    <li>Transfer sesuai nominal paket ke rekening di atas</li>
+                    <li>Klik tombol "Saya Sudah Membayar" di bawah</li>
+                    <li>Tunggu verifikasi sistem (1-24 jam)</li>
+                    <li>Akses premium akan aktif otomatis setelah diverifikasi</li>
+                </ol>
+            </div>
+
+            <button onclick="confirmPayment()" class="w-full bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition">
+                <i class="fas fa-check-circle mr-2"></i>Saya Sudah Membayar
+            </button>
+            
+            <p class="text-center text-sm text-gray-600 mt-4">
+                Setelah konfirmasi, permintaan Anda akan masuk ke sistem dan diverifikasi
+            </p>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-8 text-center">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-check text-4xl text-green-600"></i>
+            </div>
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Berhasil!</h2>
+            <p class="text-gray-600 mb-6">Permintaan premium Anda telah terkirim. Sistem akan memverifikasi dalam 1-24 jam. Silakan cek email atau login untuk melihat status.</p>
+            <button onclick="closeSuccessModal()" class="w-full bg-purple-600 text-white py-3 rounded-xl font-bold hover:bg-purple-700 transition">
+                Tutup
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let selectedPackageData = null;
+
+        function showModal(type) {
+            document.getElementById('authModal').classList.remove('hidden');
+            if (type === 'login') {
+                showLogin();
+            } else {
+                showRegister();
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('authModal').classList.add('hidden');
+        }
+
+        function showRegister() {
+            document.getElementById('registerForm').classList.remove('hidden');
+            document.getElementById('loginForm').classList.add('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const username = document.getElementById('regUsername').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            
+            // Here you would send data to your backend
+            console.log('Register:', { username, email, password });
+            alert('Registrasi berhasil! Silakan login.');
+            closeModal();
+            showModal('login');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Here you would send data to your backend
+            console.log('Login:', { username, password });
+            alert('Login berhasil!');
+            closeModal();
+        }
+
+        function selectPackage(pkgType, price, duration) {
+            selectedPackageData = { type: pkgType, price, duration };
+            
+            const pkgNames = {
+                '1-month': 'Premium 1 Bulan',
+                '3-months': 'Premium 3 Bulan',
+                '1-year': 'Premium 1 Tahun'
+            };
+            
+            document.getElementById('pkgName').textContent = pkgNames[pkgType];
+            document.getElementById('pkgPrice').textContent = price.toLocaleString('id-ID');
+            document.getElementById('pkgDuration').textContent = duration;
+            
+            document.getElementById('paymentModal').classList.remove('hidden');
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').classList.add('hidden');
+        }
+
+        function confirmPayment() {
+            if (!selectedPackageData) return;
+            
+            // Here you would send payment confirmation to your backend
+            console.log('Payment confirmed:', selectedPackageData);
+            
+            closePaymentModal();
+            document.getElementById('successModal').classList.remove('hidden');
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.add('hidden');
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.id === 'authModal') {
+                closeModal();
+            }
+            if (event.target.id === 'paymentModal') {
+                closePaymentModal();
+            }
+            if (event.target.id === 'successModal') {
+                closeSuccessModal();
+            }
+        }
+    </script>
+</body>
+</html>

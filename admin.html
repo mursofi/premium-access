@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - MathApp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .sidebar-active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Login Admin -->
+    <div id="loginSection" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-600 to-blue-600">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+            <div class="text-center mb-8">
+                <i class="fas fa-shield-alt text-5xl text-purple-600 mb-4"></i>
+                <h1 class="text-3xl font-bold text-gray-800">Admin Panel</h1>
+                <p class="text-gray-600">MathApp Management System</p>
+            </div>
+            
+            <form onsubmit="handleAdminLogin(event)">
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold mb-2">Username Admin</label>
+                    <input type="text" id="adminUsername" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Masukkan username admin">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2">Password</label>
+                    <input type="password" id="adminPassword" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Masukkan password">
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-bold hover:from-purple-700 hover:to-blue-700 transition">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Login Admin
+                </button>
+            </form>
+            
+            <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                <p class="text-sm text-blue-800"><i class="fas fa-info-circle mr-2"></i><strong>Default Login:</strong></p>
+                <p class="text-sm text-blue-700 mt-1">Username: <code>admin</code></p>
+                <p class="text-sm text-blue-700">Password: <code>AdminPassword123!</code></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Admin (Hidden by default) -->
+    <div id="dashboardSection" class="hidden">
+        <!-- Sidebar -->
+        <div class="flex h-screen">
+            <aside class="w-64 bg-white shadow-lg hidden md:block">
+                <div class="p-6 border-b">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-shield-alt text-2xl text-purple-600"></i>
+                        <span class="text-xl font-bold text-gray-800">Admin Panel</span>
+                    </div>
+                </div>
+                
+                <nav class="p-4 space-y-2">
+                    <button onclick="showPage('overview')" class="sidebar-btn w-full text-left px-4 py-3 rounded-lg sidebar-active text-white font-medium">
+                        <i class="fas fa-chart-line mr-3"></i>Dashboard
+                    </button>
+                    <button onclick="showPage('registrations')" class="sidebar-btn w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 font-medium">
+                        <i class="fas fa-users mr-3"></i>Registrasi User
+                    </button>
+                    <button onclick="showPage('payments')" class="sidebar-btn w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 font-medium">
+                        <i class="fas fa-money-bill-wave mr-3"></i>Verifikasi Pembayaran
+                        <span id="pendingBadge" class="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">0</span>
+                    </button>
+                    <button onclick="showPage('premium')" class="sidebar-btn w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 font-medium">
+                        <i class="fas fa-crown mr-3"></i>Akun Premium
+                    </button>
+                    <button onclick="showPage('logs')" class="sidebar-btn w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 font-medium">
+                        <i class="fas fa-history mr-3"></i>Log Aktivitas
+                    </button>
+                    <button onclick="logout()" class="w-full text-left px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 font-medium mt-8">
+                        <i class="fas fa-sign-out-alt mr-3"></i>Logout
+                    </button>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="flex-1 overflow-y-auto">
+                <!-- Header -->
+                <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
+                    <h2 id="pageTitle" class="text-2xl font-bold text-gray-800">Dashboard Overview</h2>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-gray-600"><i class="fas fa-user-circle mr-2"></i>Admin</span>
+                    </div>
+                </header>
+
+                <div class="p-6">
+                    <!-- Overview Page -->
+                    <div id="overviewPage" class="page-section">
+                        <!-- Stats Cards -->
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                            <div class="bg-white rounded-xl shadow p-6">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Total User</p>
+                                        <p id="statTotalUsers" class="text-3xl font-bold text-gray-800">0</p>
+                                    </div>
+                                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-users text-blue-600 text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow p-6">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Premium Aktif</p>
+                                        <p id="statPremiumActive" class="text-3xl font-bold text-green-600">0</p>
+                                    </div>
+                                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-crown text-green-600 text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow p-6">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Menunggu Verifikasi</p>
+                                        <p id="statPendingPayments" class="text-3xl font-bold text-red-600">0</p>
+                                    </div>
+                                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-clock text-red-600 text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow p-6">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Total Pendapatan</p>
+                                        <p id="statRevenue" class="text-3xl font-bold text-purple-600">Rp 0</p>
+                                    </div>
+                                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-wallet text-purple-600 text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Registrations -->
+                        <div class="bg-white rounded-xl shadow">
+                            <div class="p-6 border-b">
+                                <h3 class="text-lg font-bold text-gray-800">Registrasi Terbaru</h3>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Username</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal Daftar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recentUsersTable" class="divide-y divide-gray-200">
+                                        <!-- Data will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Registrations Page -->
+                    <div id="registrationsPage" class="page-section hidden">
+                        <div class="bg-white rounded-xl shadow">
+                            <div class="p-6 border-b flex justify-between items-center">
+                                <h3 class="text-lg font-bold text-gray-800">Daftar User Terdaftar</h3>
+                                <input type="text" id="searchUser" placeholder="Cari username/email..." onkeyup="searchUsers()" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600">
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Username</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status Premium</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal Daftar</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="allUsersTable" class="divide-y divide-gray-200">
+                                        <!-- Data will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payments Verification Page -->
+                    <div id="paymentsPage" class="page-section hidden">
+                        <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6 rounded">
+                            <p class="text-yellow-800"><i class="fas fa-exclamation-triangle mr-2"></i><strong>Penting:</strong> Verifikasi pembayaran secara manual melalui aplikasi mobile banking atau layanan perbankan BNI sebelum menyetujui aktivasi Premium.</p>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow">
+                            <div class="p-6 border-b">
+                                <h3 class="text-lg font-bold text-gray-800">Permintaan Aktivasi Premium</h3>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Username</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Paket</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nominal</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal Request</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="paymentsTable" class="divide-y divide-gray-200">
+                                        <!-- Data will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Premium Accounts Page -->
+                    <div id="premiumPage" class="page-section hidden">
+                        <div class="bg-white rounded-xl shadow">
+                            <div class="p-6 border-b">
+                                <h3 class="text-lg font-bold text-gray-800">Akun Premium Aktif</h3>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Username</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Paket</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Mulai</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Berakhir</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Sisa Hari</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="premiumTable" class="divide-y divide-gray-200">
+                                        <!-- Data will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Logs Page -->
+                    <div id="logsPage" class="page-section hidden">
+                        <div class="bg-white rounded-xl shadow">
+                            <div class="p-6 border-b">
+                                <h3 class="text-lg font-bold text-gray-800">Log Aktivitas Admin</h3>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Waktu</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Admin</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aktivitas</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Target</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Deskripsi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="logsTable" class="divide-y divide-gray-200">
+                                        <!-- Data will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal Konfirmasi Aktivasi -->
+    <div id="confirmModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">Konfirmasi Aktivasi Premium</h3>
+            
+            <div class="bg-blue-50 rounded-xl p-4 mb-4">
+                <p class="text-sm text-blue-800 mb-2"><i class="fas fa-info-circle mr-2"></i>Detail Pembayaran:</p>
+                <div id="confirmDetails" class="space-y-2 text-sm">
+                    <!-- Details will be inserted here -->
+                </div>
+            </div>
+
+            <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded">
+                <p class="text-red-800 text-sm"><i class="fas fa-exclamation-triangle mr-2"></i><strong>PERINGATAN:</strong> Pastikan pembayaran telah benar-benar diterima di rekening BNI 0495212080 sebelum mengaktifkan Premium. Verifikasi melalui mobile banking atau aplikasi perbankan Anda.</p>
+            </div>
+
+            <div class="flex space-x-3">
+                <button onclick="closeConfirmModal()" class="flex-1 bg-gray-200 text-gray-800 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                    Batal
+                </button>
+                <button onclick="approvePayment()" class="flex-1 bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+                    <i class="fas fa-check mr-2"></i>Aktivasi Premium
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Database Simulation (In Real App, This Would Be From Backend API)
+        let users = [
+            { id: 1, username: 'admin', email: 'admin@example.com', password: 'AdminPassword123!', role: 'admin', premium_status: false },
+            { id: 2, username: 'demo_user', email: 'demo@example.com', password: 'UserPassword123!', role: 'user', premium_status: false, created_at: '2026-01-15' }
+        ];
+
+        let premiumRequests = [];
+        let adminLogs = [];
+        let currentApproveId = null;
+
+        // Admin Login
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+
+            const admin = users.find(u => u.username === username && u.password === password && u.role === 'admin');
+            
+            if (admin) {
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('dashboardSection').classList.remove('hidden');
+                loadDashboard();
+            } else {
+                alert('Username atau password salah!');
+            }
+        }
+
+        function logout() {
+            document.getElementById('dashboardSection').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('adminUsername').value = '';
+            document.getElementById('adminPassword').value = '';
+        }
+
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page-section').forEach(page => page.classList.add('hidden'));
+            
+            // Show selected page
+            document.getElementById(pageName + 'Page').classList.remove('hidden');
+            
+            // Update title
+            const titles = {
+                'overview': 'Dashboard Overview',
+                'registrations': 'Daftar User Terdaftar',
+                'payments': 'Verifikasi Pembayaran',
+                'premium': 'Akun Premium Aktif',
+                'logs': 'Log Aktivitas Admin'
+            };
+            document.getElementById('pageTitle').textContent = titles[pageName];
+            
+            // Update sidebar active state
+            document.querySelectorAll('.sidebar-btn').forEach(btn => {
+                btn.classList.remove('sidebar-active', 'text-white');
+                btn.classList.add('text-gray-700');
+            });
+            event.target.closest('button').classList.add('sidebar-active', 'text-white');
+            event.target.closest('button').classList.remove('text-gray-700');
+            
+            // Load data for specific page
+            if (pageName === 'registrations') loadAllUsers();
+            if (pageName === 'payments') loadPayments();
+            if (pageName === 'premium') loadPremiumAccounts();
+            if (pageName === 'logs') loadLogs();
+        }
+
+        function loadDashboard() {
+            // Calculate statistics
+            const totalUsers = users.filter(u => u.role === 'user').length;
+            const premiumActive = users.filter(u => u.premium_status === true).length;
+            const pendingPayments = premiumRequests.filter(r => r.status === 'pending').length;
+            const revenue = premiumRequests.filter(r => r.status === 'paid').reduce((sum, r) => sum + r.amount, 0);
+            
+            // Update stats
+            document.getElementById('statTotalUsers').textContent = totalUsers;
+            document.getElementById('statPremiumActive').textContent = premiumActive;
+            document.getElementById('statPendingPayments').textContent = pendingPayments;
+            document.getElementById('statRevenue').textContent = 'Rp ' + revenue.toLocaleString('id-ID');
+            document.getElementById('pendingBadge').textContent = pendingPayments;
+            
+            // Load recent users
+            const recentUsers = users.filter(u => u.role === 'user').slice(-5).reverse();
+            const tbody = document.getElementById('recentUsersTable');
+            tbody.innerHTML = recentUsers.map(user => `
+                <tr>
+                    <td class="px-6 py-4 font-medium text-gray-900">${user.username}</td>
+                    <td class="px-6 py-4 text-gray-600">${user.email}</td>
+                    <td class="px-6 py-4">
+                        <span class="px-2 py-1 rounded-full text-xs font-semibold ${user.premium_status ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}">
+                            ${user.premium_status ? 'Premium' : 'Free'}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-gray-600">${user.created_at || '-'}</td>
+                </tr>
+            `).join('');
+        }
+
+        function loadAllUsers() {
+            const tbody = document.getElementById('allUsersTable');
+            const userUsers = users.filter(u => u.role === 'user');
+            
+            tbody.innerHTML = userUsers.map(user => `
+                <tr>
+                    <td class="px-6 py-4 text-sm text-gray-900">#${user.id}</td>
+                    <td class="px-6 py-4 font-medium text-gray-900">${user.username}</td>
+                    <td class="px-6 py-4 text-gray-600">${user.email}</td>
+                    <td class="px-6 py-4">
+                        <span class="px-2 py-1 rounded-full text-xs font-semibold ${user.premium_status ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}">
+                            ${user.premium_status ? 'Premium' : 'Free'}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-gray-600">${user.created_at || '-'}</td>
+                    <td class="px-6 py-4">
+                        ${!user.premium_status ? `
+                            <button onclick="manuallyActivatePremium(${user.id})" class="text-blue-600 hover:text-blue-800 font-medium text-sm">
+                                Aktifkan Premium
+                            </button>
+                        ` : '-'}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function loadPayments() {
+            const tbody = document.getElementById('paymentsTable');
+            
+            if (premiumRequests.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="px-6 py-4 text-center text-gray-500">Belum ada permintaan pembayaran</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = premiumRequests.map(request => {
+                const user = users.find(u => u.id === request.user_id);
+                return `
+                    <tr>
+                        <td class="px-6 py-4 font-medium text-gray-900">${user ? user.username : '-'}</td>
+                        <td class="px-6 py-4 text-gray-600">${request.package}</td>
+                        <td class="px-6 py-4 text-gray-600">Rp ${request.amount.toLocaleString('id-ID')}</td>
+                        <td class="px-6 py-4 text-gray-600">${request.date}</td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 rounded-full text-xs font-semibold ${
+                                request.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                                request.status === 'paid' ? 'bg-green-100 text-green-800' :
+                                'bg-red-100 text-red-800'
+                            }">
+                                ${request.status.toUpperCase()}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            ${request.status === 'pending' ? `
+                                <div class="flex space-x-2">
+                                    <button onclick="openConfirmModal(${request.id})" class="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700 transition">
+                                        <i class="fas fa-check mr-1"></i>Setujui
+                                    </button>
+                                    <button onclick="rejectPayment(${request.id})" class="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700 transition">
+                                        <i class="fas fa-times mr-1"></i>Tolak
+                                    </button>
+                                </div>
+                            ` : '-'}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function loadPremiumAccounts() {
+            const tbody = document.getElementById('premiumTable');
+            const premiumUsers = users.filter(u => u.premium_status === true);
+            
+            if (premiumUsers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="px-6 py-4 text-center text-gray-500">Belum ada akun premium aktif</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = premiumUsers.map(user => {
+                const daysLeft = user.premium_expiry ? Math.ceil((new Date(user.premium_expiry) - new Date()) / (1000 * 60 * 60 * 24)) : 0;
+                return `
+                    <tr>
+                        <td class="px-6 py-4 font-medium text-gray-900">${user.username}</td>
+                        <td class="px-6 py-4 text-gray-600">${user.package || 'Premium'}</td>
+                        <td class="px-6 py-4 text-gray-600">${user.premium_start || '-'}</td>
+                        <td class="px-6 py-4 text-gray-600">${user.premium_expiry || '-'}</td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 rounded-full text-xs font-semibold ${daysLeft <= 7 ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}">
+                                ${daysLeft} hari
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <button onclick="deactivatePremium(${user.id})" class="text-red-600 hover:text-red-800 font-medium text-sm">
+                                Nonaktifkan
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function loadLogs() {
+            const tbody = document.getElementById('logsTable');
+            
+            if (adminLogs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-4 text-center text-gray-500">Belum ada log aktivitas</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = adminLogs.map(log => `
+                <tr>
+                    <td class="px-6 py-4 text-gray-600">${log.timestamp}</td>
+                    <td class="px-6 py-4 font-medium text-gray-900">${log.admin}</td>
+                    <td class="px-6 py-4">
+                        <span class="px-2 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">${log.action}</span>
+                    </td>
+                    <td class="px-6 py-4 text-gray-600">${log.target || '-'}</td>
+                    <td class="px-6 py-4 text-gray-600">${log.description}</td>
+                </tr>
+            `).join('');
+        }
+
+        function openConfirmModal(requestId) {
+            currentApproveId = requestId;
+            const request = premiumRequests.find(r => r.id === requestId);
+            const user = users.find(u => u.id === request.user_id);
+            
+            document.getElementById('confirmDetails').innerHTML = `
+                <p><strong>Username:</strong> ${user.username}</p>
+                <p><strong>Email:</strong> ${user.email}</p>
+                <p><strong>Paket:</strong> ${request.package}</p>
+                <p><strong>Nominal:</strong> Rp ${request.amount.toLocaleString('id-ID')}</p>
+                <p><strong>Tanggal Request:</strong> ${request.date}</p>
+            `;
+            
+            document.getElementById('confirmModal').classList.remove('hidden');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').classList.add('hidden');
+            currentApproveId = null;
+        }
+
+        function approvePayment() {
+            if (!currentApproveId) return;
+            
+            const request = premiumRequests.find(r => r.id === currentApproveId);
+            const user = users.find(u => u.id === request.user_id);
+            
+            // Update request status
+            request.status = 'paid';
+            request.verified_at = new Date().toISOString();
+            
+            // Activate user premium
+            user.premium_status = true;
+            user.premium_start = new Date().toISOString().split('T')[0];
+            
+            // Calculate expiry based on package
+            const daysMap = {
+                'Premium 1 Bulan': 30,
+                'Premium 3 Bulan': 90,
+                'Premium 1 Tahun': 365
+            };
+            const expiryDate = new Date();
+            expiryDate.setDate(expiryDate.getDate() + (daysMap[request.package] || 30));
+            user.premium_expiry = expiryDate.toISOString().split('T')[0];
+            user.package = request.package;
+            
+            // Add log
+            adminLogs.unshift({
+                timestamp: new Date().toLocaleString('id-ID'),
+                admin: 'admin',
+                action: 'ACTIVATE_PREMIUM',
+                target: user.username,
+                description: `Premium ${request.package} diaktifkan setelah pembayaran Rp ${request.amount.toLocaleString('id-ID')} diverifikasi`
+            });
+            
+            alert(`Premium berhasil diaktifkan untuk user ${user.username}`);
+            closeConfirmModal();
+            loadDashboard();
+            loadPayments();
+        }
+
+        function rejectPayment(requestId) {
+            if (!confirm('Apakah Anda yakin ingin menolak permintaan ini?')) return;
+            
+            const request = premiumRequests.find(r => r.id === requestId);
+            request.status = 'rejected';
+            
+            adminLogs.unshift({
+                timestamp: new Date().toLocaleString('id-ID'),
+                admin: 'admin',
+                action: 'REJECT_PREMIUM',
+                target: request.user_id.toString(),
+                description: `Permintaan Premium ditolak`
+            });
+            
+            alert('Permintaan pembayaran ditolak');
+            loadPayments();
+        }
+
+        function manuallyActivatePremium(userId) {
+            const user = users.find(u => u.id === userId);
+            if (!user) return;
+            
+            const packageName = prompt('Masukkan paket premium (Premium 1 Bulan/Premium 3 Bulan/Premium 1 Tahun):', 'Premium 1 Bulan');
+            if (!packageName) return;
+            
+            const daysMap = {
+                'Premium 1 Bulan': 30,
+                'Premium 3 Bulan': 90,
+                'Premium 1 Tahun': 365
+            };
+            
+            user.premium_status = true;
+            user.premium_start = new Date().toISOString().split('T')[0];
+            const expiryDate = new Date();
+            expiryDate.setDate(expiryDate.getDate() + (daysMap[packageName] || 30));
+            user.premium_expiry = expiryDate.toISOString().split('T')[0];
+            user.package = packageName;
+            
+            adminLogs.unshift({
+                timestamp: new Date().toLocaleString('id-ID'),
+                admin: 'admin',
+                action: 'MANUAL_ACTIVATE',
+                target: user.username,
+                description: `Premium ${packageName} diaktifkan secara manual oleh admin`
+            });
+            
+            alert(`Premium berhasil diaktifkan untuk ${user.username}`);
+            loadAllUsers();
+        }
+
+        function deactivatePremium(userId) {
+            if (!confirm('Apakah Anda yakin ingin menonaktifkan premium user ini?')) return;
+            
+            const user = users.find(u => u.id === userId);
+            user.premium_status = false;
+            user.premium_start = null;
+            user.premium_expiry = null;
+            
+            adminLogs.unshift({
+                timestamp: new Date().toLocaleString('id-ID'),
+                admin: 'admin',
+                action: 'DEACTIVATE_PREMIUM',
+                target: user.username,
+                description: `Premium dinonaktifkan oleh admin`
+            });
+            
+            alert('Premium berhasil dinonaktifkan');
+            loadPremiumAccounts();
+        }
+
+        function searchUsers() {
+            const searchTerm = document.getElementById('searchUser').value.toLowerCase();
+            const rows = document.querySelectorAll('#allUsersTable tr');
+            
+            rows.forEach(row => {
+                const username = row.cells[1]?.textContent.toLowerCase() || '';
+                const email = row.cells[2]?.textContent.toLowerCase() || '';
+                row.style.display = (username.includes(searchTerm) || email.includes(searchTerm)) ? '' : 'none';
+            });
+        }
+
+        // Simulate user registration from frontend
+        function simulateUserRegistration(username, email, password) {
+            const newUser = {
+                id: users.length + 1,
+                username: username,
+                email: email,
+                password: password,
+                role: 'user',
+                premium_status: false,
+                created_at: new Date().toISOString().split('T')[0]
+            };
+            users.push(newUser);
+            return newUser;
+        }
+
+        // Simulate payment request from frontend
+        function simulatePaymentRequest(userId, packageName, amount) {
+            const newRequest = {
+                id: premiumRequests.length + 1,
+                user_id: userId,
+                package: packageName,
+                amount: amount,
+                status: 'pending',
+                date: new Date().toISOString().split('T')[0]
+            };
+            premiumRequests.push(newRequest);
+            return newRequest;
+        }
+
+        // Example: Simulate some data for testing
+        window.onload = function() {
+            // Create test users
+            const testUser1 = simulateUserRegistration('haura2024', 'haura@email.com', 'password123');
+            const testUser2 = simulateUserRegistration('dimas2025', 'dimas@email.com', 'password123');
+            
+            // Create test payment requests
+            simulatePaymentRequest(testUser1.id, 'Premium 1 Bulan', 15000);
+            simulatePaymentRequest(testUser2.id, 'Premium 3 Bulan', 40000);
+        };
+    </script>
+</body>
+</html>
